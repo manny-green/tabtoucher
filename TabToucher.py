@@ -10,7 +10,8 @@ driver = webdriver.Chrome()
 
 #Open a webpage
 driver.get("https://www.google.com")
-#driver.refresh() 
+
+driver.refresh() 
 #driver.back()  
 #driver.forward() 
 #driver.quit()
