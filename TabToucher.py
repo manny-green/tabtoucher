@@ -13,6 +13,10 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 
 
+#This portion of code will lock the workstation
+import ctypes
+#lock_ws = ctypes.windll.user32.LockWorkStation()
+
 #This portion of code focuses on importing Windows related modules
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
@@ -29,14 +33,18 @@ volume = cast(interface, POINTER(IAudioEndpointVolume))
 driver = webdriver.Chrome()
 
 
+
+
+
 #Open a webpage and open up multiple tabs
 driver.get("https://www.google.com")
+
 i = 0
 while i < 100:
     driver.switch_to.new_window('tab') 
     driver.get("https://www.google.com")
-    driver.switch_to.new_window('tab') 
-    driver.get("https://www.google.com")
+    volume.SetMasterVolumeLevelScalar(1.0, None)
+    time.sleep(0.5)
     i += 1
 
 
@@ -46,11 +54,12 @@ while i < 100:
 #if "macOS" in platform.platform():
 #        osascript.osascript("set volume output volume 100")
 
-
-while i < 100: #The range here goes from -65.0 to 0. Anything higher than 0 or lower than -65.0 will produce an error.
-    volume.SetMasterVolumeLevel(0, None)
-    i += 1
+#The range here goes from -65.0 to 0. Anything higher than 0 or lower than -65.0 will produce an error.
 
 
+
+
+#This will lock the workstation
+lock_ws()
 #Webdriver closes once the action of using driver.get is completed, or perhaps any action for that matter; so here we use time.sleep()
 time.sleep(1000)
